@@ -1,0 +1,246 @@
+:root {
+  --ink: #12102b;
+  --ink-lift: #1f1b4d;
+  --bone: #f2efe9;
+  --tangerine: #ff7a3d;
+  --lilac: #b9a7ff;
+  --mint: #7fe3c4;
+  --gap: 14px;
+  --rail: 76px;
+}
+
+.site {
+  min-height: 100vh;
+  padding: var(--gap) var(--gap) var(--gap) calc(var(--rail) + var(--gap));
+}
+
+/* ---------- left rail ---------- */
+.rail {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--rail);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+}
+
+.pip {
+  width: 26px;
+  height: 26px;
+  background: var(--bone);
+  opacity: 0.45;
+  transition: transform 0.25s ease, opacity 0.25s ease, background 0.25s ease;
+}
+.pip:hover {
+  transform: scale(1.25);
+  opacity: 0.85;
+}
+.pip.on {
+  background: var(--tangerine);
+  opacity: 1;
+}
+.pip.circle {
+  border-radius: 50%;
+}
+.pip.square {
+  border-radius: 7px;
+}
+.pip.triangle {
+  clip-path: polygon(50% 6%, 96% 92%, 4% 92%);
+}
+.pip.diamond {
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+/* ---------- grid ---------- */
+.grid {
+  display: grid;
+  gap: var(--gap);
+  height: calc(100dvh - 2 * var(--gap));
+  min-height: 560px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas:
+    "hero hero a b"
+    "hero hero c c"
+    "d    e    c c";
+}
+
+.hero {
+  --mx: 0;
+  --my: 0;
+  grid-area: hero;
+  position: relative;
+  overflow: hidden;
+  border-radius: 40px;
+  background: var(--ink-lift);
+}
+
+.hero span {
+  position: absolute;
+  transition: translate 0.35s ease-out;
+}
+
+.ring {
+  top: 50%;
+  left: 50%;
+  width: 72%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: clamp(10px, 1.6vw, 22px) solid var(--lilac);
+  border-radius: 50%;
+  translate: calc(var(--mx) * -36px) calc(var(--my) * -36px);
+}
+
+.disc {
+  top: 50%;
+  left: 50%;
+  width: 44%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: var(--tangerine);
+  border-radius: 50%;
+  translate: calc(var(--mx) * 80px) calc(var(--my) * 80px);
+}
+
+.half {
+  left: 8%;
+  bottom: 0;
+  width: 46%;
+  height: 23%;
+  background: var(--mint);
+  border-radius: 999px 999px 0 0;
+  translate: calc(var(--mx) * 44px) calc(var(--my) * 20px);
+}
+
+/* ---------- tiles ---------- */
+.tile {
+  --r: 28px;
+  --r-hover: 28px;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: var(--r);
+  transition: border-radius 0.45s ease;
+}
+.tile:hover {
+  border-radius: var(--r-hover);
+}
+.tile:focus-visible,
+.pip:focus-visible {
+  outline: 3px solid var(--bone);
+  outline-offset: 3px;
+}
+
+.art {
+  position: absolute;
+  inset: -60%;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* a: stripes */
+.tile.a {
+  grid-area: a;
+  background: var(--ink-lift);
+  --r: 28px 28px 28px 28px;
+  --r-hover: 28px 90px 28px 90px;
+}
+.tile.a .art {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--lilac) 0 14px,
+    transparent 14px 30px
+  );
+}
+
+/* b: sun on bone */
+.tile.b {
+  grid-area: b;
+  background: var(--bone);
+  --r: 120px 28px 28px 28px;
+  --r-hover: 28px 120px 28px 28px;
+}
+.tile.b .art {
+  background: radial-gradient(
+    circle at 56% 56%,
+    var(--tangerine) 0 15vmin,
+    transparent calc(15vmin + 1px)
+  );
+}
+
+/* c: rings */
+.tile.c {
+  grid-area: c;
+  background: var(--mint);
+  --r: 28px 28px 140px 28px;
+  --r-hover: 140px 28px 28px 28px;
+}
+.tile.c .art {
+  background: repeating-radial-gradient(
+    circle at 38% 62%,
+    var(--ink) 0 12px,
+    transparent 12px 28px
+  );
+}
+
+/* d: dot grid */
+.tile.d {
+  grid-area: d;
+  background: var(--tangerine);
+  --r: 28px;
+  --r-hover: 90px 28px 90px 28px;
+}
+.tile.d .art {
+  background: radial-gradient(var(--ink) 3px, transparent 3.5px) 0 0 / 24px 24px;
+}
+
+/* e: two discs */
+.tile.e {
+  grid-area: e;
+  background: var(--lilac);
+  --r: 999px 28px 28px 999px;
+  --r-hover: 28px 999px 999px 28px;
+}
+.tile.e .art {
+  background:
+    radial-gradient(circle at 42% 50%, var(--ink) 0 8vmin, transparent calc(8vmin + 1px)),
+    radial-gradient(circle at 58% 50%, var(--bone) 0 8vmin, transparent calc(8vmin + 1px));
+}
+
+/* ---------- small screens ---------- */
+@media (max-width: 720px) {
+  .site {
+    padding: var(--gap) var(--gap) calc(64px + var(--gap));
+  }
+  .rail {
+    inset: auto 0 0 0;
+    width: auto;
+    height: 64px;
+    flex-direction: row;
+    gap: 34px;
+    background: var(--ink);
+  }
+  .grid {
+    height: auto;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(6, minmax(150px, 22vh));
+    grid-template-areas:
+      "hero hero"
+      "hero hero"
+      "a    b"
+      "c    c"
+      "c    c"
+      "d    e";
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero span,
+  .art,
+  .tile,
+  .pip {
+    transition: none;
+  }
+}
