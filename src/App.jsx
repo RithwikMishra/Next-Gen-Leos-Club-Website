@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import clubImage from "./assets/club_image.jpg";
 import photo from "./assets/website_pic.jpg";
 import contactImage from "./assets/contact_us.jpg";
-import logo from "./assets/club_logo.jpeg";
+import logo from "./assets/actual_club_logo.jpg";
 import togetherImage from "./assets/together_we_serve_our_community.jpg";
 import backToSchool from "./assets/projects/back_to_school.jpg";
 import snackCart from "./assets/projects/stock_the_snack_cart.jpg";
