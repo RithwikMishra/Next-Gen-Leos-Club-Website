@@ -295,6 +295,22 @@ function ProjectSlider() {
   const next = () => (index === n - 1 ? wrapTo(0) : goTo(index + 1));
   const prev = () => (index === 0 ? wrapTo(n - 1) : goTo(index - 1));
 
+  
+  /* Swiping past the last (or first) project loops around too */
+  const touch = useRef({ x: 0, y: 0, start: 0 });
+  const onTouchStart = (e) => {
+    const t = e.touches[0];
+    touch.current = { x: t.clientX, y: t.clientY, start: index };
+  };
+  const onTouchEnd = (e) => {
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touch.current.x;
+    const dy = t.clientY - touch.current.y;
+    if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+    if (touch.current.start === n - 1 && dx < 0) wrapTo(0);
+    if (touch.current.start === 0 && dx > 0) wrapTo(n - 1);
+  };
+
   const onScroll = () => {
     const t = trackRef.current;
     const i = Math.round(t.scrollLeft / step());
@@ -318,6 +334,8 @@ function ProjectSlider() {
         className={`track ${fading ? "fading" : ""}`}
         ref={trackRef}
         onScroll={onScroll}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
       >
         {PROJECTS.map((p, i) => (
           <article

@@ -1019,33 +1019,31 @@
 /* ---------- contact ---------- */
 .contact {
   overflow-x: clip;
+  padding-top: calc(var(--bar) + 56px);
   padding-bottom: clamp(72px, 11vh, 120px);
   background: var(--navy);
 }
 .contact-photo {
   position: relative;
-  height: clamp(360px, 46vw, 620px);
+  width: min(960px, 100% - 48px);
+  margin-inline: auto;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
-  border-bottom: 10px solid var(--yellow);
+  border: 6px solid var(--yellow);
+  border-radius: 6px;
+  box-shadow: 14px 14px 0 var(--red);
 }
 .contact-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 72%;
-}
-.contact-photo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(6, 25, 74, 0.28);
 }
 
 .contact-card {
   position: relative;
   z-index: 1;
   width: min(760px, 100% - 48px);
-  margin: calc(-1 * clamp(120px, 16vw, 220px)) auto 0;
+  margin: calc(-1 * clamp(60px, 8vw, 100px)) auto 0;
   padding: clamp(28px, 4vw, 52px);
   color: var(--ink);
   background: #fff;
@@ -1251,6 +1249,17 @@
   .btn-lg {
     padding: 16px 26px;
     font-size: 1.2rem;
+  }
+    .contact {
+    padding-top: calc(var(--bar) + 32px);
+  }
+  .contact-photo {
+    width: calc(100% - 32px);
+    border-width: 4px;
+    box-shadow: 8px 8px 0 var(--red);
+  }
+  .contact-card {
+    margin-top: -48px;
   }
 }
 
