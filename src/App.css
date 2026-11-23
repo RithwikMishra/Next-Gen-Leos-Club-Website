@@ -570,6 +570,14 @@
   display: none;
 }
 
+/* fades out briefly while the slider loops back around */
+.track {
+  transition: opacity 0.25s ease;
+}
+.track.fading {
+  opacity: 0;
+}
+
 .slide {
   flex: 0 0 var(--slide-w);
   display: grid;

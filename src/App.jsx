@@ -264,6 +264,7 @@ function Marquee() {
 function ProjectSlider() {
   const trackRef = useRef(null);
   const [index, setIndex] = useState(0);
+  const [fading, setFading] = useState(false);
   const n = PROJECTS.length;
 
   const step = () => {
@@ -271,12 +272,28 @@ function ProjectSlider() {
     return t.children[1].offsetLeft - t.children[0].offsetLeft;
   };
 
+  /* Slide smoothly to a project (used by the dots and by clicking a neighbor) */
   const goTo = (i) => {
     const t = trackRef.current;
     if (!t) return;
     const target = Math.max(0, Math.min(n - 1, i));
     t.scrollTo({ left: target * step(), behavior: "smooth" });
   };
+
+  /* Loop around: fade out, jump to the other end, fade back in */
+  const wrapTo = (i) => {
+    const t = trackRef.current;
+    if (!t || fading) return;
+    setFading(true);
+    setTimeout(() => {
+      t.scrollTo({ left: i * step(), behavior: "instant" });
+      setIndex(i);
+      setFading(false);
+    }, 250);
+  };
+
+  const next = () => (index === n - 1 ? wrapTo(0) : goTo(index + 1));
+  const prev = () => (index === 0 ? wrapTo(n - 1) : goTo(index - 1));
 
   const onScroll = () => {
     const t = trackRef.current;
@@ -285,8 +302,8 @@ function ProjectSlider() {
   };
 
   const onKeyDown = (e) => {
-    if (e.key === "ArrowRight") goTo(index + 1);
-    if (e.key === "ArrowLeft") goTo(index - 1);
+    if (e.key === "ArrowRight") next();
+    if (e.key === "ArrowLeft") prev();
   };
 
   return (
@@ -297,7 +314,11 @@ function ProjectSlider() {
       aria-label="Club projects"
       onKeyDown={onKeyDown}
     >
-      <div className="track" ref={trackRef} onScroll={onScroll}>
+      <div
+        className={`track ${fading ? "fading" : ""}`}
+        ref={trackRef}
+        onScroll={onScroll}
+      >
         {PROJECTS.map((p, i) => (
           <article
             key={p.title}
@@ -358,8 +379,7 @@ function ProjectSlider() {
             type="button"
             className="arrow-btn"
             aria-label="Previous project"
-            disabled={index === 0}
-            onClick={() => goTo(index - 1)}
+            onClick={prev}
           >
             <Chevron dir="left" />
           </button>
@@ -367,8 +387,7 @@ function ProjectSlider() {
             type="button"
             className="arrow-btn"
             aria-label="Next project"
-            disabled={index === n - 1}
-            onClick={() => goTo(index + 1)}
+            onClick={next}
           >
             <Chevron dir="right" />
           </button>
