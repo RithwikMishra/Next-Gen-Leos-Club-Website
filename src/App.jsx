@@ -112,7 +112,7 @@ const IMPORTANT_LINKS = [
     url: "https://docs.google.com/spreadsheets/d/13DUecsrGdTjdQbAAU6wG8nCyovMaNk5oNnjtQstdbFs/edit?gid=0#gid=0",
   },
   {
-    label: "NGLC General Info",
+    label: "Leo Club General Info",
     url: "https://www.lionsclubs.org/en/discover-our-clubs/about-leos",
   },
   {
