@@ -6,6 +6,8 @@ import logo from "./assets/actual_club_logo.jpg";
 import magCover from "./assets/magazine/saathee_1.jpg";
 import magPage1 from "./assets/magazine/saathee_2.jpg";
 import magPage2 from "./assets/magazine/saathee_3.jpg";
+import wmCover from "./assets/magazine/waxhaw_marvin_1.jpg";
+import wmArticle from "./assets/magazine/waxhaw_marvin_2.jpg";
 import togetherImage from "./assets/together_we_serve_our_community.jpg";
 import backToSchool from "./assets/projects/back_to_school.jpg";
 import snackCart from "./assets/projects/stock_the_snack_cart.jpg";
@@ -266,16 +268,37 @@ function Marquee() {
 }
 
 /* The three Saathee Magazine pages: tap or click to shuffle the stack */
-const MAG_PAGES = [
+const SAATHEE_PAGES = [
   { src: magCover, alt: "Cover of Saathee Magazine, February 2026" },
   { src: magPage1, alt: "First page of the Next Gen Leo Club article" },
   { src: magPage2, alt: "Second page of the Next Gen Leo Club article" },
 ];
 
-function MagazineStack() {
-  const [order, setOrder] = useState([0, 1, 2]);
-  const [leaving, setLeaving] = useState(false);
+const WAXHAW_PAGES = [
+  { src: wmCover, alt: "Cover of Waxhaw & Marvin Living, March 2026" },
+  { src: wmArticle, alt: "Next Gen Leo Club article in Waxhaw & Marvin Living" },
+];
 
+const PRESS = [
+  {
+    publication: "Saathee Magazine",
+    date: "February 2026",
+    title: "Teens with Heart, Making Waves",
+    pages: SAATHEE_PAGES,
+    link: "https://saathee.com/next-gen-leo-club-teens-with-heart-making-waves/",
+    button: "Read the Feature",
+  },
+  {
+    publication: "Waxhaw & Marvin Living",
+    date: "March 2026",
+    title: "Local Teens Turn Compassion into Action",
+    pages: WAXHAW_PAGES,
+  },
+];
+
+function MagazineStack({ pages }) {
+  const [order, setOrder] = useState(pages.map((_, i) => i));
+  const [leaving, setLeaving] = useState(false);
   const shuffle = () => {
     if (leaving) return;
     setLeaving(true);
@@ -284,11 +307,10 @@ function MagazineStack() {
       setLeaving(false);
     }, 280);
   };
-
   return (
     <div className="mag">
       <div className={`mag-stack ${leaving ? "leaving" : ""}`}>
-        {MAG_PAGES.map((p, i) => {
+        {pages.map((p, i) => {
           const pos = order.indexOf(i);
           return (
             <button
@@ -744,28 +766,28 @@ export default function App() {
 
       {/* ---------- magazine feature ---------- */}
       <section className="section featured" id="featured">
-        <div className="wrap">
-          <div className="feature-card reveal">
-            <div className="feature-copy">
-              <span className="tag">In the Spotlight</span>
-              <h2>Featured in {FEATURE.publication}</h2>
-              <p className="feature-title">{FEATURE.title}</p>
-              <p className="feature-note">
-                {FEATURE.note} <span>{FEATURE.date}</span>
-              </p>
-              <a
-                className="btn btn-yellow"
-                href={FEATURE.link}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {FEATURE.button} <Arrow />
+          <div className="press">
+    <p className="press-tag">In the Spotlight</p>
+    <h2 className="press-title">Featured in the Press</h2>
+    <div className="press-grid">
+      {PRESS.map((m) => (
+        <article className="press-card" key={m.publication}>
+          <MagazineStack pages={m.pages} />
+          <div className="press-text">
+            <span className="press-date">{m.date}</span>
+            <h3>{m.publication}</h3>
+            <p>{m.title}</p>
+            {m.link && (
+              <a className="btn btn-red" href={m.link} target="_blank" rel="noreferrer">
+                {m.button}
               </a>
-            </div>
-                        <MagazineStack />
+            )}
           </div>
-        </div>
-      </section>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* ---------- board ---------- */}
       <section className="section board" id="board">
