@@ -842,6 +842,57 @@
   background: #fff;
 }
 
+/* ---------- magazine page stack ---------- */
+.mag {
+  display: grid;
+  justify-items: center;
+  gap: 30px;
+}
+.mag-stack {
+  position: relative;
+  width: min(100%, 270px);
+  aspect-ratio: 1075 / 1521;
+  margin-top: 10px;
+}
+.mag-card {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 4px solid #fff;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s ease;
+}
+.mag-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mag-card:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 4px;
+}
+.pos-0 {
+  z-index: 3;
+  transform: rotate(-3deg);
+  box-shadow: 8px 8px 0 var(--red);
+}
+.pos-1 {
+  z-index: 2;
+  transform: translate(26px, 10px) rotate(5deg) scale(0.97);
+}
+.pos-2 {
+  z-index: 1;
+  transform: translate(-24px, 18px) rotate(-9deg) scale(0.94);
+}
+.mag-stack.leaving .pos-0 {
+  transform: translate(115%, -6%) rotate(18deg);
+  opacity: 0;
+}
+
 /* ---------- board ---------- */
 .board {
   background: #fff;

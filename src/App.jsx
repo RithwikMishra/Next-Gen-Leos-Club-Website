@@ -3,6 +3,9 @@ import clubImage from "./assets/club_image.jpg";
 import photo from "./assets/website_pic.jpg";
 import contactImage from "./assets/contact_us.jpg";
 import logo from "./assets/actual_club_logo.jpg";
+import magCover from "./assets/magazine/saathee_1.jpg";
+import magPage1 from "./assets/magazine/saathee_2.jpg";
+import magPage2 from "./assets/magazine/saathee_3.jpg";
 import togetherImage from "./assets/together_we_serve_our_community.jpg";
 import backToSchool from "./assets/projects/back_to_school.jpg";
 import snackCart from "./assets/projects/stock_the_snack_cart.jpg";
@@ -31,7 +34,7 @@ const LINKS = [
   { id: "members", label: "Members" },
   { id: "links", label: "Links" },
   { id: "instagram", label: "Instagram", href: "https://www.instagram.com/nextgenleoclub/" },
-  { id: "contact", label: "Contact" },
+    { id: "contact", label: "Contact Us" },
 ];
 
 const TAGLINE = ["Empowering youth", "Driving change", "Making a difference"];
@@ -258,6 +261,52 @@ function Marquee() {
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+/* The three Saathee Magazine pages: tap or click to shuffle the stack */
+const MAG_PAGES = [
+  { src: magCover, alt: "Cover of Saathee Magazine, February 2026" },
+  { src: magPage1, alt: "First page of the Next Gen Leo Club article" },
+  { src: magPage2, alt: "Second page of the Next Gen Leo Club article" },
+];
+
+function MagazineStack() {
+  const [order, setOrder] = useState([0, 1, 2]);
+  const [leaving, setLeaving] = useState(false);
+
+  const shuffle = () => {
+    if (leaving) return;
+    setLeaving(true);
+    setTimeout(() => {
+      setOrder((o) => [...o.slice(1), o[0]]);
+      setLeaving(false);
+    }, 280);
+  };
+
+  return (
+    <div className="mag">
+      <div className={`mag-stack ${leaving ? "leaving" : ""}`}>
+        {MAG_PAGES.map((p, i) => {
+          const pos = order.indexOf(i);
+          return (
+            <button
+              key={p.src}
+              type="button"
+              className={`mag-card pos-${pos}`}
+              onClick={shuffle}
+              tabIndex={pos === 0 ? 0 : -1}
+              aria-label={pos === 0 ? `${p.alt}. Press to shuffle the pages.` : p.alt}
+            >
+              <img src={p.src} alt="" loading="lazy" />
+            </button>
+          );
+        })}
+      </div>
+      <button type="button" className="btn btn-yellow" onClick={shuffle}>
+        Shuffle Pages
+      </button>
     </div>
   );
 }
@@ -713,12 +762,7 @@ export default function App() {
                 {FEATURE.button} <Arrow />
               </a>
             </div>
-            <div className="feature-art" aria-hidden="true">
-              <span className="f1" />
-              <span className="f2" />
-              <span className="f3" />
-              <span className="f4" />
-            </div>
+                        <MagazineStack />
           </div>
         </div>
       </section>
