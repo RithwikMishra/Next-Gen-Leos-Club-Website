@@ -30,6 +30,7 @@ const LINKS = [
   { id: "board", label: "Board" },
   { id: "members", label: "Members" },
   { id: "links", label: "Links" },
+  { id: "instagram", label: "Instagram", href: "https://www.instagram.com/nextgenleoclub/" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -574,16 +575,21 @@ export default function App() {
           </a>
 
           <nav className={`nav ${menuOpen ? "open" : ""}`} aria-label="Main">
-            {LINKS.map((l) => (
-              <a
-                key={l.id}
-                href={`#${l.id}`}
-                className={`${active === l.id ? "on" : ""} ${l.id === "contact" ? "cta" : ""}`}
-                onClick={() => setMenuOpen(false)}
-              >
-                {l.label}
-              </a>
-            ))}
+                        {LINKS.map((l) => {
+              const external = Boolean(l.href);
+              return (
+                <a
+                  key={l.id}
+                  href={external ? l.href : `#${l.id}`}
+                  target={external ? "_blank" : undefined}
+                  rel={external ? "noopener noreferrer" : undefined}
+                  className={`${active === l.id ? "on" : ""} ${l.id === "contact" ? "cta" : ""}`}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {l.label}
+                </a>
+              );
+            })}
           </nav>
 
           <button
